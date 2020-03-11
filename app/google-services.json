@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "948528077099",
+    "firebase_url": "https://timeline-do-vendedor.firebaseio.com",
+    "project_id": "timeline-do-vendedor",
+    "storage_bucket": "timeline-do-vendedor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948528077099:android:db0fbf41f32aa973984d6e",
+        "android_client_info": {
+          "package_name": "com.gmail.lucasmveigabr.timelinedovendedor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948528077099-aitlrvtpe7qvpc597tkqdui0kn2rvs0u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTi1pzRKDu01fPLXGmZh8q2xwGpnXJ4sc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948528077099-aitlrvtpe7qvpc597tkqdui0kn2rvs0u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
