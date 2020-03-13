@@ -1,12 +1,14 @@
 package com.gmail.lucasmveigabr.timelinedovendedor.feature.timeline
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.lucasmveigabr.timelinedovendedor.R
+import kotlinx.android.synthetic.main.timeline_fragment.*
 
 class TimelineFragment : Fragment() {
 
@@ -24,7 +26,10 @@ class TimelineFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(TimelineViewModel::class.java)
-
+        val adapter = TimelineAdapter(requireContext())
+        timelineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        timelineRecyclerView.adapter = adapter
+        adapter.list = viewModel.fakeData()
     }
 
 }

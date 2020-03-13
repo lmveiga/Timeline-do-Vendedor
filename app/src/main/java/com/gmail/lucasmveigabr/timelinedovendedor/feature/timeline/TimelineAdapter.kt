@@ -22,7 +22,7 @@ class TimelineAdapter(private val context: Context) :
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimelineHolder {
-        val v = LayoutInflater.from(context).inflate(R.layout.task_holder, parent)
+        val v = LayoutInflater.from(context).inflate(R.layout.task_holder, parent, false)
         return TimelineHolder(v)
     }
 
@@ -39,7 +39,7 @@ class TimelineAdapter(private val context: Context) :
         fun bind(task: Task) {
             v.taskTypeImageView.setImageDrawable(
                 when (task.type) {
-                    EMAIL -> context.getDrawable(R.drawable.ic_mail)
+                    MAIL -> context.getDrawable(R.drawable.ic_mail)
                     CALL -> context.getDrawable(R.drawable.ic_call)
                     PROPOSAL -> context.getDrawable(R.drawable.ic_proposal)
                     MEETING -> context.getDrawable(R.drawable.ic_meeting)

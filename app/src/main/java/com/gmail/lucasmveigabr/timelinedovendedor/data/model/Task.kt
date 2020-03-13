@@ -3,7 +3,7 @@ package com.gmail.lucasmveigabr.timelinedovendedor.data.model
 import java.util.*
 
 enum class TaskType {
-    EMAIL, CALL, PROPOSAL, MEETING, VISIT, OTHER
+    MAIL, CALL, PROPOSAL, MEETING, VISIT, OTHER
 }
 
 data class Task(
