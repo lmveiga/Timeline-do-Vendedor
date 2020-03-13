@@ -2,4 +2,12 @@
     <string name="app_name">Timeline do Vendedor</string>
     <string name="task_type">Tipo de Tarefa</string>
     <string name="customer">Cliente</string>
+    <string name="monday">Seg</string>
+    <string name="tuesday">Ter</string>
+    <string name="wednesday">Qua</string>
+    <string name="thursday">Qui</string>
+    <string name="friday">Sex</string>
+    <string name="saturnday">Sab</string>
+    <string name="sunday">Dom</string>
+
 </resources>

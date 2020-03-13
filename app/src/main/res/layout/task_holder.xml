@@ -10,17 +10,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/dayOfWeekTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/timeTextView"
+            app:layout_constraintEnd_toStartOf="@id/taskTypeImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/taskTypeImageView"
+            tools:text="Seg" />
+
+        <TextView
+            android:id="@+id/timeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/taskTypeImageView"
+            app:layout_constraintEnd_toStartOf="@id/taskTypeImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dayOfWeekTextView"
+            tools:text="10:00" />
+
+
         <ImageView
             android:id="@+id/taskTypeImageView"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_margin="8dp"
             android:background="@drawable/circle_background"
             android:contentDescription="@string/task_type"
             android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_mail" />
 
@@ -29,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.22" />
+            app:layout_constraintGuide_percent="0.25" />
 
         <TextView
             android:id="@+id/taskTextView"
