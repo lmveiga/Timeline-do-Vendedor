@@ -1,4 +1,4 @@
-package com.gmail.lucasmveigabr.timelinedovendedor.ui.main
+package com.gmail.lucasmveigabr.timelinedovendedor.feature.timeline
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -8,23 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import com.gmail.lucasmveigabr.timelinedovendedor.R
 
-class MainFragment : Fragment() {
+class TimelineFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = TimelineFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: TimelineViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        return inflater.inflate(R.layout.timeline_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel = ViewModelProviders.of(this).get(TimelineViewModel::class.java)
+
     }
 
 }
