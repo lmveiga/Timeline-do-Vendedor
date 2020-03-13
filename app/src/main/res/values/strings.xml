@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Timeline do Vendedor</string>
+    <string name="task_type">Tipo de Tarefa</string>
+    <string name="customer">Cliente</string>
 </resources>
