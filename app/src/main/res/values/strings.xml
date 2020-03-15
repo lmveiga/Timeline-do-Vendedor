@@ -20,5 +20,6 @@
     <string name="empty_customer">O campo do cliente não pode ficar vazio</string>
     <string name="empty_description">O campo descrição não pode ficar vazio</string>
     <string name="save_error">Não foi possível adicionar a tarefa</string>
+    <string name="firebase_error">Ocorreu um erro ao buscar informações</string>
 
 </resources>

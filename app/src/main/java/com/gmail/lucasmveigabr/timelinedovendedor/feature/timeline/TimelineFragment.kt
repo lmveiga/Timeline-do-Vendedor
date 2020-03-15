@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.lucasmveigabr.timelinedovendedor.R
 import com.gmail.lucasmveigabr.timelinedovendedor.core.NavigationEvent
 import com.gmail.lucasmveigabr.timelinedovendedor.core.NavigationViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.timeline_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,8 +24,10 @@ class TimelineFragment : Fragment() {
     private val viewModel: TimelineViewModel by viewModel()
     private val navigationViewModel: NavigationViewModel by sharedViewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         return inflater.inflate(R.layout.timeline_fragment, container, false)
     }
 
@@ -42,6 +45,10 @@ class TimelineFragment : Fragment() {
         })
         viewModel.timelineCountData.observe(viewLifecycleOwner, Observer {
             countAdapter.list = it
+        })
+        viewModel.firebaseError.observe(viewLifecycleOwner, Observer {
+            val view = view ?: return@Observer
+            Snackbar.make(view, R.string.firebase_error, Snackbar.LENGTH_LONG).show()
         })
         fab.setOnClickListener {
             navigationViewModel.setNavigation(NavigationEvent.AddTaskNavigation)

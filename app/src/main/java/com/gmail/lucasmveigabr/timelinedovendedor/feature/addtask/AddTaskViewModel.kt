@@ -45,9 +45,11 @@ class AddTaskViewModel(
         }
         if (customer.isBlank()) {
             _errorMessage.postValue(AddTaskError.EMPTY_CUSTOMER)
+            return
         }
         if (description.isBlank()) {
             _errorMessage.postValue(AddTaskError.EMPTY_DESCRIPTION)
+            return
         }
         val task = Task(type, description, customer, date)
         tasksFirebase.addTask(task).observeForever { success ->

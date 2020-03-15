@@ -9,12 +9,16 @@ import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Result
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.TaskType
 import com.gmail.lucasmveigabr.timelinedovendedor.data.networking.TasksFirebase
+import com.gmail.lucasmveigabr.timelinedovendedor.util.SingleLiveEvent
 import java.util.*
 
 class TimelineViewModel(private val tasksFirebase: TasksFirebase) : ViewModel() {
 
     private val _timelineData = MutableLiveData<List<Task>>()
     val timelineData: LiveData<List<Task>> = _timelineData
+
+    private val _firebaseError = SingleLiveEvent<Unit>()
+    val firebaseError: LiveData<Unit> = _firebaseError
 
     val timelineCountData = Transformations.map(_timelineData) { tasks ->
         val result = ArrayList<TimelineCountItem>()
@@ -30,6 +34,7 @@ class TimelineViewModel(private val tasksFirebase: TasksFirebase) : ViewModel() 
         when (it) {
             is Result.Success -> _timelineData.postValue(it.data)
             is Result.Failure -> {
+                _firebaseError.call()
             }
         }
     }
