@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Result
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
 
-interface TaskDao {
+interface TasksFirebase {
 
     fun listenToWeeklyTasks(): LiveData<Result<List<Task>>>
 

@@ -32,10 +32,17 @@ class TimelineFragment : Fragment() {
         viewModel = ViewModelProvider(this)[TimelineViewModel::class.java]
         navigationViewModel = ViewModelProvider(requireActivity())[NavigationViewModel::class.java]
         val adapter = TimelineAdapter(requireContext())
+        val countAdapter = TimelineCountAdapter(requireContext())
         timelineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         timelineRecyclerView.adapter = adapter
+        timelineCountRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        timelineCountRecyclerView.adapter = countAdapter
         viewModel.timelineData.observe(viewLifecycleOwner, Observer {
             adapter.list = it
+        })
+        viewModel.timelineCountData.observe(viewLifecycleOwner, Observer {
+            countAdapter.list = it
         })
         fab.setOnClickListener {
             navigationViewModel.setNavigation(NavigationEvent.AddTaskNavigation)

@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TaskDaoImpl : TaskDao {
+class TasksFirebaseImpl : TasksFirebase {
 
     override fun listenToWeeklyTasks(): LiveData<Result<List<Task>>> {
         val data = MutableLiveData<Result<List<Task>>>()

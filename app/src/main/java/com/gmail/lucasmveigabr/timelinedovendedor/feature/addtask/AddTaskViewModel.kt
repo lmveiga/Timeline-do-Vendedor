@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.TaskType
-import com.gmail.lucasmveigabr.timelinedovendedor.data.networking.TaskDaoImpl
+import com.gmail.lucasmveigabr.timelinedovendedor.data.networking.TasksFirebaseImpl
 import com.gmail.lucasmveigabr.timelinedovendedor.util.SingleLiveEvent
 import java.util.*
 
@@ -23,7 +23,7 @@ class AddTaskViewModel(private val state: SavedStateHandle) : ViewModel() {
     private val _insertedAction = SingleLiveEvent<Unit>()
     val insertedAction: LiveData<Unit> = _insertedAction
 
-    val dao = TaskDaoImpl()
+    val dao = TasksFirebaseImpl()
 
 
     fun setDate(date: Date) {
