@@ -22,7 +22,7 @@ class TaskDaoImpl : TaskDao {
                         for (task in querySnapshot.documents) {
                             list.add(
                                 Task(
-                                    TaskType.fromInt(task.getLong("type")?.toInt()),
+                                    TaskType.valueOf(task["type"].toString()),
                                     task["description"].toString(),
                                     task["customer"].toString(),
                                     task.getDate("date")!!  //todo: value could be null

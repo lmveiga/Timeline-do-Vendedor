@@ -1,17 +1,17 @@
 package com.gmail.lucasmveigabr.timelinedovendedor.core
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gmail.lucasmveigabr.timelinedovendedor.util.SingleLiveEvent
 
 sealed class NavigationEvent {
-    object timelineFragmentNavigation : NavigationEvent()
-    object addTaskFragmentNavigation : NavigationEvent()
+    object TimelineNavigation : NavigationEvent()
+    object AddTaskNavigation : NavigationEvent()
 }
 
 class NavigationViewModel : ViewModel() {
 
-    private val _navigation = MutableLiveData<NavigationEvent>()
+    private val _navigation = SingleLiveEvent<NavigationEvent>()
     val navigation: LiveData<NavigationEvent> = _navigation
 
     fun setNavigation(event: NavigationEvent) {

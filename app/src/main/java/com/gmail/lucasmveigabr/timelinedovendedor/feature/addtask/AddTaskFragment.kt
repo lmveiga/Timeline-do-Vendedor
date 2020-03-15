@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.lucasmveigabr.timelinedovendedor.R
+import com.gmail.lucasmveigabr.timelinedovendedor.core.NavigationEvent
+import com.gmail.lucasmveigabr.timelinedovendedor.core.NavigationViewModel
 import com.gmail.lucasmveigabr.timelinedovendedor.feature.addtask.AddTaskError.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.add_task_fragment.*
@@ -23,6 +25,7 @@ class AddTaskFragment : Fragment() {
     }
 
     private lateinit var viewModel: AddTaskViewModel
+    private lateinit var navigationViewModel: NavigationViewModel
     private lateinit var adapter: TaskTypeAdapter
 
     override fun onCreateView(
@@ -34,6 +37,7 @@ class AddTaskFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[AddTaskViewModel::class.java]
+        navigationViewModel = ViewModelProvider(requireActivity())[NavigationViewModel::class.java]
         viewModel.taskDate.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             taskDateTextView.text =
                 SimpleDateFormat("dd/MM/yyyy, HH:mm", Locale("pt", "BR")).format(it)
@@ -44,7 +48,11 @@ class AddTaskFragment : Fragment() {
                 EMPTY_CUSTOMER -> showSnackbar(R.string.empty_customer)
                 EMPTY_DESCRIPTION -> showSnackbar(R.string.empty_description)
                 FIREBASE_ERROR -> showSnackbar(R.string.save_error)
+                else -> throw RuntimeException("Invalid Option")
             }
+        })
+        viewModel.insertedAction.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            navigationViewModel.setNavigation(NavigationEvent.TimelineNavigation)
         })
         if (savedInstanceState != null) {
             adapter =

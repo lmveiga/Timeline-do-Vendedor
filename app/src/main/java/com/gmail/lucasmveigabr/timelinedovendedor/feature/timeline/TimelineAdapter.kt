@@ -17,7 +17,7 @@ class TimelineAdapter(private val context: Context) :
 
     var list: List<Task> = Collections.emptyList()
         set(value) {
-            field = value
+            field = value.sortedBy { it.date }
             notifyDataSetChanged()
         }
 
