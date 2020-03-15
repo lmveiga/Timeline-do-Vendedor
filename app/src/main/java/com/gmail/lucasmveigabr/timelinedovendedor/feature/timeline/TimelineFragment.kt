@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.lucasmveigabr.timelinedovendedor.R
@@ -29,7 +30,10 @@ class TimelineFragment : Fragment() {
         val adapter = TimelineAdapter(requireContext())
         timelineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         timelineRecyclerView.adapter = adapter
-        adapter.list = viewModel.fakeData()
+        viewModel.timelineData.observe(viewLifecycleOwner, Observer {
+            adapter.list = it
+        })
+
     }
 
 }

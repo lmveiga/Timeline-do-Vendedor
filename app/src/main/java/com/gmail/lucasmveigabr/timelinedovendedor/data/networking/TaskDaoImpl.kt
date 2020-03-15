@@ -2,7 +2,9 @@ package com.gmail.lucasmveigabr.timelinedovendedor.data.networking
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Result
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
+import com.gmail.lucasmveigabr.timelinedovendedor.data.model.TaskType
 import com.google.firebase.firestore.FirebaseFirestore
 
 class TaskDaoImpl : TaskDao {
@@ -11,14 +13,31 @@ class TaskDaoImpl : TaskDao {
         val data = MutableLiveData<Result<List<Task>>>()
         val db = FirebaseFirestore.getInstance()
         db.collection("tasks")
-            .get()
-            .addOnSuccessListener { result ->
-                data.postValue(Result.success(result.toObjects(Task::class.java)))
-            }
-            .addOnFailureListener {
-                data.postValue(Result.failure(it))
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->  //TODO: FILTER DATE
+                if (firebaseFirestoreException != null) {
+                    data.postValue(Result.Failure(firebaseFirestoreException))
+                } else {
+                    if (querySnapshot != null) {
+                        val list = ArrayList<Task>()
+                        for (task in querySnapshot.documents) {
+                            list.add(
+                                Task(
+                                    TaskType.fromInt(task.getLong("type")?.toInt()),
+                                    task["description"].toString(),
+                                    task["customer"].toString(),
+                                    task.getDate("date")!!  //todo: value could be null
+                                )
+                            )
+                        }
+                        data.postValue(Result.Success(list))
+                    }
+                }
             }
         return data
+    }
+
+    override fun addTask(task: Task): LiveData<Boolean> {
+        throw RuntimeException("Not Implemented")
     }
 
 }

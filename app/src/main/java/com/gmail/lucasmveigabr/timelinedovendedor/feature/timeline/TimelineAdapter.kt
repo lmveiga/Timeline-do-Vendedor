@@ -26,9 +26,7 @@ class TimelineAdapter(private val context: Context) :
         return TimelineHolder(v)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: TimelineHolder, position: Int) {
         holder.bind(list[position])

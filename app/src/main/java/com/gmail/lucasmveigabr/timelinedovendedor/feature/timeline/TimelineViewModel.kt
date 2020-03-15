@@ -3,8 +3,10 @@ package com.gmail.lucasmveigabr.timelinedovendedor.feature.timeline
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Result
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.TaskType
+import com.gmail.lucasmveigabr.timelinedovendedor.data.networking.TaskDaoImpl
 import java.util.*
 
 class TimelineViewModel : ViewModel() {
@@ -13,6 +15,16 @@ class TimelineViewModel : ViewModel() {
     val timelineData: LiveData<List<Task>> = _timelineData
 
 
+    init {
+        val dao = TaskDaoImpl()
+        dao.listenToTasks().observeForever {
+            when (it) {
+                is Result.Success -> _timelineData.postValue(it.data)
+                is Result.Failure -> {
+                }
+            }
+        }
+    }
 
     fun fakeData() =
         listOf(
