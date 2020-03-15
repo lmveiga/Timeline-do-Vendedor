@@ -37,7 +37,13 @@ class TaskDaoImpl : TaskDao {
     }
 
     override fun addTask(task: Task): LiveData<Boolean> {
-        throw RuntimeException("Not Implemented")
+        val result = MutableLiveData<Boolean>()
+        val db = FirebaseFirestore.getInstance()
+        db.collection("tasks")
+            .add(task)
+            .addOnSuccessListener { result.postValue(true) }
+            .addOnFailureListener { result.postValue(false) }
+        return result
     }
 
 }

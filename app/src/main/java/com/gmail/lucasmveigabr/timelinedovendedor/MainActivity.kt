@@ -1,8 +1,8 @@
 package com.gmail.lucasmveigabr.timelinedovendedor
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.gmail.lucasmveigabr.timelinedovendedor.feature.timeline.TimelineFragment
+import androidx.appcompat.app.AppCompatActivity
+import com.gmail.lucasmveigabr.timelinedovendedor.feature.addtask.AddTaskFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, TimelineFragment.newInstance())
+                .replace(R.id.container, AddTaskFragment.newInstance())
                     .commitNow()
         }
     }

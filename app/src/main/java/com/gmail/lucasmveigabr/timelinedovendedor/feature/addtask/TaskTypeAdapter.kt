@@ -11,15 +11,21 @@ import kotlinx.android.synthetic.main.tasktype_holder.view.*
 
 data class TaskTypeSelector(var selected: Boolean, val type: TaskType)
 
-class TaskTypeAdapter(private val context: Context) :
+class TaskTypeAdapter(private val context: Context, private val selectedItem: Int = 0) :
     RecyclerView.Adapter<TaskTypeAdapter.TaskTypeHolder>() {
 
     private val list = listOf(
         TaskTypeSelector(false, TaskType.MAIL),
-        TaskTypeSelector(false, TaskType.CALL), TaskTypeSelector(false, TaskType.PROPOSAL),
-        TaskTypeSelector(false, TaskType.MEETING), TaskTypeSelector(false, TaskType.VISIT),
+        TaskTypeSelector(false, TaskType.CALL),
+        TaskTypeSelector(false, TaskType.PROPOSAL),
+        TaskTypeSelector(false, TaskType.MEETING),
+        TaskTypeSelector(false, TaskType.VISIT),
         TaskTypeSelector(false, TaskType.OTHER)
     )
+
+    init {
+        setSelected(selectedItem)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskTypeHolder {
         val v = LayoutInflater.from(context).inflate(R.layout.tasktype_holder, parent, false)
@@ -38,8 +44,9 @@ class TaskTypeAdapter(private val context: Context) :
         notifyDataSetChanged()
     }
 
-    fun getSelected() = list.firstOrNull { it.selected }
+    fun getSelected() = list.first { it.selected }
 
+    fun getSelectedIndex() = list.indexOfFirst { it.selected }
 
     inner class TaskTypeHolder(private val v: View) : RecyclerView.ViewHolder(v) {
 
