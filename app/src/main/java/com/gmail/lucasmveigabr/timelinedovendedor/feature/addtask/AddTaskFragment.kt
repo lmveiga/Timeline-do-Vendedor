@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.SavedStateViewModelFactory
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.lucasmveigabr.timelinedovendedor.R
 import com.gmail.lucasmveigabr.timelinedovendedor.core.NavigationEvent
@@ -16,6 +14,8 @@ import com.gmail.lucasmveigabr.timelinedovendedor.feature.addtask.AddTaskError.*
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.add_task_fragment.*
 import kotlinx.android.synthetic.main.date_time_picker_dialog.view.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,8 +25,8 @@ class AddTaskFragment : Fragment() {
         fun newInstance() = AddTaskFragment()
     }
 
-    private lateinit var viewModel: AddTaskViewModel
-    private lateinit var navigationViewModel: NavigationViewModel
+    private val viewModel: AddTaskViewModel by stateViewModel()
+    private val navigationViewModel: NavigationViewModel by sharedViewModel()
     private lateinit var adapter: TaskTypeAdapter
 
     override fun onCreateView(
@@ -37,11 +37,6 @@ class AddTaskFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(
-            this, SavedStateViewModelFactory
-                (requireActivity().application, this)
-        )[AddTaskViewModel::class.java]
-        navigationViewModel = ViewModelProvider(requireActivity())[NavigationViewModel::class.java]
         viewModel.taskDate.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             taskDateTextView.text =
                 SimpleDateFormat("dd/MM/yyyy, HH:mm", Locale("pt", "BR")).format(it)

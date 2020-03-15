@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.lucasmveigabr.timelinedovendedor.R
 import com.gmail.lucasmveigabr.timelinedovendedor.core.NavigationEvent
 import com.gmail.lucasmveigabr.timelinedovendedor.core.NavigationViewModel
 import kotlinx.android.synthetic.main.timeline_fragment.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TimelineFragment : Fragment() {
 
@@ -19,8 +20,8 @@ class TimelineFragment : Fragment() {
         fun newInstance() = TimelineFragment()
     }
 
-    private lateinit var viewModel: TimelineViewModel
-    private lateinit var navigationViewModel: NavigationViewModel
+    private val viewModel: TimelineViewModel by viewModel()
+    private val navigationViewModel: NavigationViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -29,8 +30,6 @@ class TimelineFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[TimelineViewModel::class.java]
-        navigationViewModel = ViewModelProvider(requireActivity())[NavigationViewModel::class.java]
         val adapter = TimelineAdapter(requireContext())
         val countAdapter = TimelineCountAdapter(requireContext())
         timelineRecyclerView.layoutManager = LinearLayoutManager(requireContext())

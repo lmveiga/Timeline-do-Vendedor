@@ -2,15 +2,16 @@ package com.gmail.lucasmveigabr.timelinedovendedor.feature.timeline
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Result
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.TaskType
-import com.gmail.lucasmveigabr.timelinedovendedor.data.networking.TasksFirebaseImpl
+import com.gmail.lucasmveigabr.timelinedovendedor.data.networking.TasksFirebase
 import java.util.*
 
-class TimelineViewModel : ViewModel() {
+class TimelineViewModel(private val tasksFirebase: TasksFirebase) : ViewModel() {
 
     private val _timelineData = MutableLiveData<List<Task>>()
     val timelineData: LiveData<List<Task>> = _timelineData
@@ -23,15 +24,23 @@ class TimelineViewModel : ViewModel() {
         return@map result
     }
 
-    init {
-        val dao = TasksFirebaseImpl()
-        dao.listenToWeeklyTasks().observeForever {
-            when (it) {
-                is Result.Success -> _timelineData.postValue(it.data)
-                is Result.Failure -> {
-                }
+    private val firebaseLiveData = tasksFirebase.listenToWeeklyTasks()
+
+    private val firebaseObserver = Observer<Result<List<Task>>> {
+        when (it) {
+            is Result.Success -> _timelineData.postValue(it.data)
+            is Result.Failure -> {
             }
         }
+    }
+
+    init {
+        firebaseLiveData.observeForever(firebaseObserver)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        firebaseLiveData.removeObserver(firebaseObserver)
     }
 
 }
