@@ -6,7 +6,7 @@ import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
 
 interface TaskDao {
 
-    fun listenToTasks(): LiveData<Result<List<Task>>>
+    fun listenToWeeklyTasks(): LiveData<Result<List<Task>>>
 
     fun addTask(task: Task): LiveData<Boolean>
 }

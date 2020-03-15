@@ -6,14 +6,18 @@ import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Result
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.TaskType
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TaskDaoImpl : TaskDao {
 
-    override fun listenToTasks(): LiveData<Result<List<Task>>> {
+    override fun listenToWeeklyTasks(): LiveData<Result<List<Task>>> {
         val data = MutableLiveData<Result<List<Task>>>()
         val db = FirebaseFirestore.getInstance()
         db.collection("tasks")
-            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->  //TODO: FILTER DATE
+            .whereGreaterThanOrEqualTo("date", getStartDate())
+            .whereLessThan("date", getEndDate())
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (firebaseFirestoreException != null) {
                     data.postValue(Result.Failure(firebaseFirestoreException))
                 } else {
@@ -25,7 +29,7 @@ class TaskDaoImpl : TaskDao {
                                     TaskType.valueOf(task["type"].toString()),
                                     task["description"].toString(),
                                     task["customer"].toString(),
-                                    task.getDate("date")!!  //todo: value could be null
+                                    task.getDate("date")!!
                                 )
                             )
                         }
@@ -44,6 +48,27 @@ class TaskDaoImpl : TaskDao {
             .addOnSuccessListener { result.postValue(true) }
             .addOnFailureListener { result.postValue(false) }
         return result
+    }
+
+    private fun getStartDate(): Date {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.clear(Calendar.MINUTE)
+        calendar.clear(Calendar.SECOND)
+        calendar.clear(Calendar.MILLISECOND)
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+        return Date(calendar.timeInMillis)
+    }
+
+    private fun getEndDate(): Date {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.clear(Calendar.MINUTE)
+        calendar.clear(Calendar.SECOND)
+        calendar.clear(Calendar.MILLISECOND)
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+        calendar.add(Calendar.DAY_OF_WEEK, 7)
+        return Date(calendar.timeInMillis)
     }
 
 }

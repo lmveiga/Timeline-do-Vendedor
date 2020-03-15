@@ -17,7 +17,7 @@ class TimelineViewModel : ViewModel() {
 
     init {
         val dao = TaskDaoImpl()
-        dao.listenToTasks().observeForever {
+        dao.listenToWeeklyTasks().observeForever {
             when (it) {
                 is Result.Success -> _timelineData.postValue(it.data)
                 is Result.Failure -> {
