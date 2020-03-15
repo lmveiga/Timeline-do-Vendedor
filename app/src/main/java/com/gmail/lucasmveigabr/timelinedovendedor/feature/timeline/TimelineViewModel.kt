@@ -1,11 +1,18 @@
 package com.gmail.lucasmveigabr.timelinedovendedor.feature.timeline
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.TaskType
 import java.util.*
 
 class TimelineViewModel : ViewModel() {
+
+    private val _timelineData = MutableLiveData<List<Task>>()
+    val timelineData: LiveData<List<Task>> = _timelineData
+
+
 
     fun fakeData() =
         listOf(
