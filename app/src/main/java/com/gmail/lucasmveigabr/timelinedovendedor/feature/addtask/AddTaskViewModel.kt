@@ -1,7 +1,7 @@
 package com.gmail.lucasmveigabr.timelinedovendedor.feature.addtask
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.TaskType
@@ -13,10 +13,9 @@ enum class AddTaskError {
     EMPTY_DATE, EMPTY_CUSTOMER, EMPTY_DESCRIPTION, FIREBASE_ERROR
 }
 
-class AddTaskViewModel : ViewModel() {
+class AddTaskViewModel(private val state: SavedStateHandle) : ViewModel() {
 
-    private val _taskDate = MutableLiveData<Date>()
-    val taskDate: LiveData<Date> = _taskDate
+    val taskDate: LiveData<Date> = state.getLiveData("taskDate")
 
     private val _errorMessage = SingleLiveEvent<AddTaskError>()
     val errorMessage: LiveData<AddTaskError> = _errorMessage
@@ -28,7 +27,7 @@ class AddTaskViewModel : ViewModel() {
 
 
     fun setDate(date: Date) {
-        _taskDate.postValue(date)
+        state["taskDate"] = date
     }
 
     fun createTaskButtonClick(type: TaskType, customer: String, description: String) {
@@ -37,10 +36,10 @@ class AddTaskViewModel : ViewModel() {
             _errorMessage.postValue(AddTaskError.EMPTY_DATE)
             return
         }
-        if (customer.isNullOrBlank()) {
+        if (customer.isBlank()) {
             _errorMessage.postValue(AddTaskError.EMPTY_CUSTOMER)
         }
-        if (description.isNullOrBlank()) {
+        if (description.isBlank()) {
             _errorMessage.postValue(AddTaskError.EMPTY_DESCRIPTION)
         }
         val task = Task(type, description, customer, date)

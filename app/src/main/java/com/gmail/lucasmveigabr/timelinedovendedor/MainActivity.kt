@@ -29,8 +29,15 @@ class MainActivity : AppCompatActivity() {
                     .replace(R.id.container, TimelineFragment.newInstance()).commit()
                 AddTaskNavigation -> supportFragmentManager.beginTransaction()
                     .replace(R.id.container, AddTaskFragment.newInstance())
-                    .addToBackStack("timeline").commit()
+                    .commit()
             }
         })
+    }
+
+    override fun onBackPressed() {
+        when (supportFragmentManager.findFragmentById(R.id.container)) {
+            is AddTaskFragment -> navigationViewModel.setNavigation(TimelineNavigation)
+            else -> super.onBackPressed()
+        }
     }
 }

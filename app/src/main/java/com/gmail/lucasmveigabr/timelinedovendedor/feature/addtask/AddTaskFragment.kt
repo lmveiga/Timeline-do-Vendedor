@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.lucasmveigabr.timelinedovendedor.R
@@ -36,7 +37,10 @@ class AddTaskFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[AddTaskViewModel::class.java]
+        viewModel = ViewModelProvider(
+            this, SavedStateViewModelFactory
+                (requireActivity().application, this)
+        )[AddTaskViewModel::class.java]
         navigationViewModel = ViewModelProvider(requireActivity())[NavigationViewModel::class.java]
         viewModel.taskDate.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             taskDateTextView.text =
@@ -57,10 +61,6 @@ class AddTaskFragment : Fragment() {
         if (savedInstanceState != null) {
             adapter =
                 TaskTypeAdapter(requireContext(), savedInstanceState.getInt("state_selected_type"))
-            if (savedInstanceState.containsKey("state_date")) {
-                val time = savedInstanceState.getLong("state_date")
-                viewModel.setDate(Date(time))
-            }
         } else {
             adapter = TaskTypeAdapter(requireContext())
         }
@@ -103,9 +103,6 @@ class AddTaskFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val date = viewModel.taskDate.value?.time
-        if (date != null)
-            outState.putLong("state_date", date)
         outState.putInt("state_selected_type", adapter.getSelectedIndex())
     }
 
