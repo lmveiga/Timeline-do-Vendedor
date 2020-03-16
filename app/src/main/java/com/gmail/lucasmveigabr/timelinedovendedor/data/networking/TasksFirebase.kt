@@ -9,4 +9,6 @@ interface TasksFirebase {
     fun listenToWeeklyTasks(): LiveData<Result<List<Task>>>
 
     fun addTask(task: Task): LiveData<Boolean>
+
+    fun isLastDateUpdated(): Boolean
 }

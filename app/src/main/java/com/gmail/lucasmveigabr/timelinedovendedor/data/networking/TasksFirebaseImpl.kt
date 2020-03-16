@@ -11,9 +11,12 @@ import kotlin.collections.ArrayList
 
 class TasksFirebaseImpl : TasksFirebase {
 
+    private var lastStartedDate: Date? = null
+
     override fun listenToWeeklyTasks(): LiveData<Result<List<Task>>> {
         val data = MutableLiveData<Result<List<Task>>>()
         val db = FirebaseFirestore.getInstance()
+        lastStartedDate = getStartDate()
         db.collection("tasks")
             .whereGreaterThanOrEqualTo("date", getStartDate())
             .whereLessThan("date", getEndDate())
@@ -49,6 +52,9 @@ class TasksFirebaseImpl : TasksFirebase {
             .addOnFailureListener { result.postValue(false) }
         return result
     }
+
+    override fun isLastDateUpdated(): Boolean =
+        getStartDate() == lastStartedDate
 
     private fun getStartDate(): Date {
         val calendar = Calendar.getInstance()

@@ -24,6 +24,7 @@ class TimelineFragment : Fragment() {
     private val viewModel: TimelineViewModel by viewModel()
     private val navigationViewModel: NavigationViewModel by sharedViewModel()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +54,11 @@ class TimelineFragment : Fragment() {
         fab.setOnClickListener {
             navigationViewModel.setNavigation(NavigationEvent.AddTaskNavigation)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.fragmentStart()
     }
 
 }

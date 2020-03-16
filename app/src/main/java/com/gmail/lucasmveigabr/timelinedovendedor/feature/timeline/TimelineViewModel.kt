@@ -28,7 +28,7 @@ class TimelineViewModel(private val tasksFirebase: TasksFirebase) : ViewModel() 
         return@map result
     }
 
-    private val firebaseLiveData = tasksFirebase.listenToWeeklyTasks()
+    private var firebaseLiveData = tasksFirebase.listenToWeeklyTasks()
 
     private val firebaseObserver = Observer<Result<List<Task>>> {
         when (it) {
@@ -43,9 +43,18 @@ class TimelineViewModel(private val tasksFirebase: TasksFirebase) : ViewModel() 
         firebaseLiveData.observeForever(firebaseObserver)
     }
 
+    fun fragmentStart() {
+        if (!tasksFirebase.isLastDateUpdated()) {
+            firebaseLiveData.removeObserver(firebaseObserver)
+            firebaseLiveData = tasksFirebase.listenToWeeklyTasks()
+            firebaseLiveData.observeForever(firebaseObserver)
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         firebaseLiveData.removeObserver(firebaseObserver)
     }
+
 
 }

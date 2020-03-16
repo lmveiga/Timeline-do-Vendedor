@@ -6,8 +6,10 @@ import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Result
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.Task
 import com.gmail.lucasmveigabr.timelinedovendedor.data.model.TaskType
 import com.gmail.lucasmveigabr.timelinedovendedor.data.networking.TasksFirebase
+import com.gmail.lucasmveigabr.timelinedovendedor.utils.callOnCleared
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -61,7 +63,17 @@ class TimelineViewModelTest {
 
     @Test
     fun `when viewmodel is cleared should clear firebase observer`() {
-        //todo
+        assertTrue(data.hasObservers())
+        sut.callOnCleared()
+        assertFalse(data.hasObservers())
+    }
+
+    @Test
+    fun `when fragment starts and firebase date is not updated should update snapshot call`() {
+        every { firebase.isLastDateUpdated() }.returns(false)
+        verify(exactly = 1) { firebase.listenToWeeklyTasks() }
+        sut.fragmentStart()
+        verify(exactly = 2) { firebase.listenToWeeklyTasks() }
     }
 
     private fun success() {
