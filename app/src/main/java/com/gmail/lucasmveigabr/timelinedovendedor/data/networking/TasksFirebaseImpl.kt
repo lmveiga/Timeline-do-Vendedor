@@ -27,14 +27,18 @@ class TasksFirebaseImpl : TasksFirebase {
                     if (querySnapshot != null) {
                         val list = ArrayList<Task>()
                         for (task in querySnapshot.documents) {
-                            list.add(
-                                Task(
-                                    TaskType.valueOf(task["type"].toString()),
-                                    task["description"].toString(),
-                                    task["customer"].toString(),
-                                    task.getDate("date")!!
+                            try {
+                                list.add(
+                                    Task(
+                                        TaskType.valueOf(task["type"].toString()),
+                                        task["description"].toString(),
+                                        task["customer"].toString(),
+                                        task.getDate("date")!!
+                                    )
                                 )
-                            )
+                            } catch (e: Exception) {
+                                e.printStackTrace() //Invalid Input
+                            }
                         }
                         data.postValue(Result.Success(list))
                     }
